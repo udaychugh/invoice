@@ -78,7 +78,7 @@ td {
 }
 
 th {
-    background: #ffd68d;
+    background: #ffdb9b;
     border-color: #BBB;
 }
 
@@ -285,6 +285,23 @@ aside h1 {
     border-bottom-style: solid;
 }
 
+hr {
+    height: 5px;
+    border-width: 0;
+    border-style: solid;
+    background: rgb(246, 160, 6);
+    background: linear-gradient(83deg, rgba(246, 160, 6, 1) 0%, rgba(87, 159, 44, 1) 100%);
+    
+}
+
+.bottom{
+    
+}
+
+.top{
+    
+}
+
 /* javascript */
 
 .add,
@@ -296,6 +313,7 @@ aside h1 {
     float: left;
     text-align: center;
     width: 0.6em;
+
 }
 
 .add,
