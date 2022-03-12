@@ -379,3 +379,14 @@ tr:hover .cut {
 @page {
     margin: 0;
 }
+
+
+.greenaddtion{
+    background-color: rgba(173, 253, 125, 0.67);
+}
+
+tbody tr .greenaddtion:nth-child(3),
+tbody tr .greenaddtion:nth-child(4),
+tbody tr .greenaddtion:nth-child(5){
+    font-weight: 700;
+}
