@@ -1,3 +1,11 @@
+var today = new Date();
+
+var year = today.getFullYear();
+var month = today.getMonth() + 1; 
+var day = today.getDate();
+
+var formattedDate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
+
 /* Shivving (IE8 is not supported, but at least it won't look as awful)
 /* ========================================================================== */
 
@@ -69,10 +77,10 @@ function generateTableRow() {
 	var emptyColumn = document.createElement('tr');
 
 	emptyColumn.innerHTML = '<td class="greenaddtion"><a class="cut">-</a><span contenteditable></span></td>' +
-		'<td class="greenaddtion"><span contenteditable></span></td>' +
-		'<td class="greenaddtion"><span data-prefix>$</span><span contenteditable>0.00</span></td>' +
+		'<td class="greenaddtion"><span data-prefix>₹</span><span contenteditable>0.00</span></td>' +
 		'<td class="greenaddtion"><span contenteditable>0</span></td>' +
-		'<td class="greenaddtion"><span data-prefix>$</span><span>0.00</span></td>';
+		'<td class="greenaddtion"><span contenteditable>0</span></td>' +
+		'<td class="greenaddtion"><span data-prefix>₹</span><span>0.00</span></td>';
 
 	return emptyColumn;
 }
@@ -120,8 +128,8 @@ function updateInvoice() {
 		// get inventory row cells
 		cells = a[i].querySelectorAll('span:last-child');
 
-		// set price as cell[2] * cell[3]
-		price = parseFloatHTML(cells[2]) * parseFloatHTML(cells[3]);
+		// set price as cell[1] * cell[2]
+		price = (parseFloatHTML(cells[1]) * parseFloatHTML(cells[2])) - (((parseFloatHTML(cells[1]) * parseFloatHTML(cells[2]) * parseFloatHTML(cells[3]))) / 100);
 
 		// add price to total
 		total += price;
@@ -159,6 +167,8 @@ function updateInvoice() {
 
 function onContentLoad() {
 	updateInvoice();
+
+	document.getElementById("todaydate").innerText  = formattedDate
 
 	var
 	input = document.querySelector('input'),

@@ -33,8 +33,7 @@
 td:hover *[contenteditable],
 td:focus *[contenteditable],
 img.hover {
-    background: #DEF;
-    box-shadow: 0 0 1em 0.5em #DEF;
+    cursor: text;
 }
 
 span[contenteditable] {
@@ -78,7 +77,8 @@ td {
 }
 
 th {
-    background: #ffdb9b;
+    background: #fa1818;
+    color: #fff;
     border-color: #BBB;
 }
 
@@ -127,9 +127,9 @@ header:after {
 }
 
 header h1 {
-    background: #ffd68d;
+    background: #fa1818;
     border-radius: 0.25em;
-    color: #000;
+    color: #fff;
     margin: 0 0 1em;
     padding: 0.5em 0;
 }
@@ -288,17 +288,9 @@ aside h1 {
 hr {
     height: 5px;
     border-width: 0;
+    border-radius: 20px;
     border-style: solid;
-    background: rgb(246, 160, 6);
-    background: linear-gradient(83deg, rgba(246, 160, 6, 1) 0%, rgba(87, 159, 44, 1) 100%);
-    
-}
-
-.bottom{
-    
-}
-
-.top{
+    background: #fa1818;
     
 }
 
@@ -318,7 +310,7 @@ hr {
 
 .add,
 .cut {
-    background: #579f2c;
+    background: #fa1818;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     border-radius: 0.5em;
     border-color: #0076A3;
@@ -333,7 +325,7 @@ hr {
 }
 
 .add:hover {
-    background: #579f2c;
+    background: #fa1818;
 }
 
 .cut {
@@ -382,7 +374,7 @@ tr:hover .cut {
 
 
 .greenaddtion{
-    background-color: rgba(193, 253, 157, 0.67);
+    background-color: rgba(253, 253, 253, 0.67);
 }
 
 tbody tr .greenaddtion:nth-child(3),
