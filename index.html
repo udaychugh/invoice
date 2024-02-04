@@ -6,29 +6,30 @@
 		<link rel="stylesheet" href="style.css">
 		<link rel="shortcut icon" href="up-logo.png" />
 		<script src="script.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	</head>
 	<body>      
 		<header>
 			<h1>Invoice</h1>
 			<address contenteditable style="font-size: 14px;">
-				<p>Osho Darshan</p>
-				<p>C-65 Kiran Garden, <br>Uttam Nagar, New Delhi-110059</p>
-				<p>Phone- +91 98685 60981</p>
-				<p>Email: oshodarshandelhi@gmail.com</p>
+				<p id="seller_name">Osho Darshan</p>
+				<p id="address_line">C-65 Kiran Garden, <br>Uttam Nagar, New Delhi-110059</p>
+				<p id="user_phone_number">Phone- +91 98685 60981</p>
+				<p id="user_email">Email: oshodarshandelhi@gmail.com</p>
 			</address>
 			<span><img alt="logo image" src="up-logo.png" width="150px"><input type="file" accept="image/*"></span>
 		</header>
 		<article>
 			<h1>Recipient</h1>
 			<address contenteditable>
-				<p>Company Name or<br>Person Name</p>
-				<p style="font-size: 14px;font-weight: 400;">address</p>
-				<p style="font-size: 14px;font-weight: 400;">mobile number</p>
+				<p id="client_name">Company Name or<br>Person Name</p>
+				<p style="font-size: 14px;font-weight: 400;" id="client_address">address</p>
+				<p style="font-size: 14px;font-weight: 400;" id="client_phone">mobile number</p>
 			</address>
 			<table class="meta">
 				<tr>
 					<th><span contenteditable>Invoice #</span></th>
-					<td class="greenaddtion">OD_<span contenteditable>1</span></td>
+					<td class="greenaddtion">OD_<span contenteditable id="invoice_number">1</span></td>
 				</tr>
 				<tr>
 					<th><span contenteditable>Date</span></th>
@@ -36,7 +37,7 @@
 				</tr>
 				<tr>
 					<th><span contenteditable>Amount Due</span></th>
-					<td class="greenaddtion"><span id="prefix" contenteditable>₹</span><span>600.00</span></td>
+					<td class="greenaddtion"><span id="prefix">₹ </span><span id="invoice_amount_due">600.00</span></td>
 				</tr>
 			</table>
 			<table class="inventory">
@@ -63,25 +64,30 @@
 			<table class="balance">
 				<tr>
 					<th><span contenteditable>Total</span></th>
-					<td class="greenaddtion"><span data-prefix>₹</span><span>600.00</span></td>
+					<td class="greenaddtion"><span data-prefix>₹</span><span id="total_amount">600.00</span></td>
 				</tr>
 				<tr>
 					<th><span contenteditable>Amount Paid</span></th>
-					<td class="greenaddtion"><span data-prefix>₹</span><span contenteditable>0.00</span></td>
+					<td class="greenaddtion"><span data-prefix>₹</span><span contenteditable id="amount_paid">0.00</span></td>
 				</tr>
 				<tr>
 					<th><span contenteditable>Balance Due</span></th>
-					<td class="greenaddtion"><span data-prefix>₹</span><span>600.00</span></td>
+					<td class="greenaddtion"><span data-prefix>₹</span><span id="balance_due">600.00</span></td>
 				</tr>
 			</table>
 		</article>
 		<aside>
 			<hr style="margin-bottom: 15px;">
 			<div contenteditable>
-				<p>Please make all payment to Bank account</p><br>
-				<p>ICICI BANK<br> Uttam Nagar Branch<br> A/C NO :- 112505000895<br>IFSC CODE :- ICIC0001125</p><br>
-				<p>All books are under HSN CODE NO. 4901 & 4903 are under GST NIL category</p>
+				<p id="footer_line_1">Please make all payment to Bank account</p><br>
+				<p id="footer_line_2">ICICI BANK<br> Uttam Nagar Branch<br> A/C NO :- 112505000895<br>IFSC CODE :- ICIC0001125</p><br>
+				<p id="footer_line_3">All books are under HSN CODE NO. 4901 & 4903 are under GST NIL category</p>
 			</div>
 		</aside>
+		<div class="action_buttons">
+			<button id="loadInvoice">Load Invoice</button>
+			<button id="saveInvoice">Save Invoice</button>
+			<button id="printInvoice">Print Invoice</button>
+		</div>
 	</body>
 </html>

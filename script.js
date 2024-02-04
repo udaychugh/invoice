@@ -186,6 +186,12 @@ function onContentLoad() {
 			row = e.target.ancestorQuerySelector('tr');
 
 			row.parentNode.removeChild(row);
+		} else if (e.target.matchesSelector('#printInvoice')) {
+			window.print();
+		} else if (e.target.matchesSelector('#saveInvoice')) {
+			openSaveInvoiceBox()
+		} else if (e.target.matchesSelector('#loadInvoice')) {
+			openLoadInvoiceBox()
 		}
 
 		updateInvoice();
@@ -243,6 +249,184 @@ function onContentLoad() {
 		input.addEventListener('drop', onFileInput);
 		input.addEventListener('change', onFileInput);
 	}
+}
+
+function openSaveInvoiceBox() {
+	Swal.fire({
+		title: "Enter your file name",
+		input: "text",
+		inputAttributes: {
+		  autocapitalize: "off"
+		},
+		showCancelButton: true,
+		confirmButtonText: "Save",
+		confirmButtonColor: "#fa1818",
+		showLoaderOnConfirm: false,
+		preConfirm: (fileName) => {
+		  return new Promise((resolve, reject) => {
+			resolve();
+			if (fileName.length >= 3) {
+			  console.log("Entered file name:", fileName);
+			  saveInvoice(fileName);
+			} else {
+				Swal.fire({
+					title: "Error",
+					text: "File name must be at least 3 characters long",
+					icon: "error",
+					confirmButtonText: "Okay!",
+					confirmButtonColor: "#fa1818",
+				  });
+			}
+		  });
+		}
+	  });
+	  
+}
+
+function saveInvoice(fileName) {
+	//Seller address
+	var sellerName = document.getElementById('seller_name').innerText;
+	var addressLine = document.getElementById('address_line').innerText;
+	var userPhone = document.getElementById('user_phone_number').innerText;
+	var userEmail = document.getElementById('user_email').innerText;
+
+	//Client Info
+	var clientName = document.getElementById('client_name').innerText;
+	var clientAddress = document.getElementById('client_address').innerText;
+	var clientPhone = document.getElementById('client_phone').innerText;
+
+	//Invoice Basic Info
+	var invoiceNo = document.getElementById('invoice_number').innerText;
+	var invoiceDate = document.getElementById('todaydate').innerText;
+	var invoiceAmountDue = document.getElementById('invoice_amount_due').innerText;
+
+	//Invoice Amounts
+	var totalAmount = document.getElementById('total_amount').innerText;
+	var paidAmount = document.getElementById('amount_paid').innerText;
+	var balanceDue = document.getElementById('balance_due').innerText;
+
+	//Footer Info
+	var footerLine1 = document.getElementById('footer_line_1').innerText;
+	var footerLine2 = document.getElementById('footer_line_2').innerText;
+	var footerLine3 = document.getElementById('footer_line_3').innerText;
+
+	//Get Products Name
+	var tbody = document.querySelector('.inventory tbody');
+	var rows = tbody.querySelectorAll('tr');
+	var data = [];
+	rows.forEach(function(row) {
+		// Get all cells in the row
+		var cells = row.querySelectorAll('td span:last-child');
+	
+		// Create an object to store cell data
+		var rowData = {};
+	
+		// Iterate over each cell and store its content
+		cells.forEach(function(cell, index) {
+		  rowData['column' + index] = cell.textContent.trim();
+		});
+	
+		// Push the object into the data array
+		data.push(rowData);
+	  });
+	  
+	var invoiceJson = {
+		seller_name: sellerName,
+		address_line: addressLine,
+		user_phone: userPhone,
+		user_email: userEmail,
+		client_name: clientName,
+		client_address: clientAddress,
+		client_phone: clientPhone,
+		invoice_number: invoiceNo,
+		invoice_date: invoiceDate,
+		invoice_amount_due: invoiceAmountDue,
+		invoice_data: data,
+		total_amount: totalAmount,
+		paid_amount: paidAmount,
+		balance_due: balanceDue,
+		footer_line_1: footerLine1,
+		footer_line_2: footerLine2,
+		footer_line_3: footerLine3
+	};
+
+	var jsonObject = {
+		invoice_json: invoiceJson 
+	};
+
+	var jsonString = JSON.stringify(jsonObject, null, 2); 
+	// Save JSON string as JSON file
+	var blob = new Blob([jsonString], { type: 'application/json' });
+	var link = document.createElement('a');
+	link.href = URL.createObjectURL(blob);
+	link.download = fileName + '.json';
+	link.click();
+
+	Swal.fire({
+		title: "Success",
+		text: "Invoice saved in your device.",
+		icon: "success",
+		confirmButtonText: "Yayyy!!",
+		confirmButtonColor: "#fa1818",
+	  });
+}
+
+function openLoadInvoiceBox() {
+	Swal.fire({
+		title: "Upload your invoice",
+		input: "file",
+		inputAttributes: {
+			accept: "application/json",
+		  	autocapitalize: "off"
+		},
+		showCancelButton: true,
+		confirmButtonText: "Load",
+		confirmButtonColor: "#fa1818",
+		showLoaderOnConfirm: false,
+		preConfirm: (file) => {
+			return new Promise((resolve, reject) => {
+				if (!file) {
+				  reject("Please select a file");
+				  return;
+				}
+		
+				const reader = new FileReader();
+				reader.onload = (event) => {
+				  try {
+					
+					const jsonContent = JSON.parse(event.target.result);
+					
+					if (jsonContent && jsonContent.invoice_json) {
+						console.log("json content = ", jsonContent);
+					  loadInvoice(jsonContent.invoice_json);
+					  resolve();
+					} else {
+					  reject("Invalid file format. Please provide a valid JSON file with 'invoice_json' property.");
+					}
+				  } catch (error) {
+					reject("Error parsing JSON file. Please provide a valid JSON file.");
+				  }
+				};
+		
+				reader.readAsText(file);
+			  });
+		}
+	  });
+}
+
+function loadInvoice(fileJson) {
+	const sellerName = fileJson.seller_name;
+	const addressLine = fileJson.client_name;
+	const userPhone = fileJson.user_phone;
+	const userEmail = fileJson.user_email;
+	const clientName = fileJson.client_name;
+	const clientAddress = fileJson.client_address;
+	const clientPhone = fileJson.client_phone;
+	const invoiceNo = fileJson.invoice_number;
+	const invoiceDate = fileJson.invoice_date;
+	const invoiceAmountDue = fileJson.invoice_amount_due;
+
+	const totalAmount = fileJson.total_amount;
 }
 
 window.addEventListener && document.addEventListener('DOMContentLoaded', onContentLoad);

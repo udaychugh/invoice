@@ -343,6 +343,21 @@ tr:hover .cut {
     opacity: 1;
 }
 
+.action_buttons {
+    width: 100%;
+    text-align: end;
+}
+
+.action_buttons button {
+    background-color: #fa1818;
+    padding: 0.5rem;
+    border-radius: 0.25em;
+    color: white;
+    font-style: bold;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
 @media print {
     * {
         -webkit-print-color-adjust: exact;
@@ -363,7 +378,8 @@ tr:hover .cut {
     }
 
     .add,
-    .cut {
+    .cut,
+    .action_buttons {
         display: none;
     }
 }
