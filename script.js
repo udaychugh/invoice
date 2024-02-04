@@ -184,7 +184,6 @@ function onContentLoad() {
 		}
 		else if (e.target.className == 'cut') {
 			row = e.target.ancestorQuerySelector('tr');
-
 			row.parentNode.removeChild(row);
 		} else if (e.target.matchesSelector('#printInvoice')) {
 			window.print();
@@ -416,7 +415,7 @@ function openLoadInvoiceBox() {
 
 function loadInvoice(fileJson) {
 	const sellerName = fileJson.seller_name;
-	const addressLine = fileJson.client_name;
+	const addressLine = fileJson.address_line;
 	const userPhone = fileJson.user_phone;
 	const userEmail = fileJson.user_email;
 	const clientName = fileJson.client_name;
@@ -427,6 +426,68 @@ function loadInvoice(fileJson) {
 	const invoiceAmountDue = fileJson.invoice_amount_due;
 
 	const totalAmount = fileJson.total_amount;
+	const paidAmount = fileJson.paid_amount;
+	const balanceDue = fileJson.balance_due;
+	const footerLine1 = fileJson.footer_line_1;
+	const footerLine2 = fileJson.footer_line_2;
+	const footerLine3 = fileJson.footer_line_3;
+
+	const productJsonArr = fileJson.invoice_data;
+
+	//Seller address
+	document.getElementById('seller_name').innerText = sellerName;
+	document.getElementById('address_line').innerText = addressLine;
+	document.getElementById('user_phone_number').innerText = userPhone;
+	document.getElementById('user_email').innerText = userEmail;
+
+	//Client Info
+	document.getElementById('client_name').innerText = clientName;
+	document.getElementById('client_address').innerText = clientAddress;
+	document.getElementById('client_phone').innerText = clientPhone;
+
+	//Invoice Basic Info
+	document.getElementById('invoice_number').innerText = invoiceNo;
+	document.getElementById('todaydate').innerText = invoiceDate;
+	document.getElementById('invoice_amount_due').innerText = invoiceAmountDue;
+
+	//Invoice Amounts
+	document.getElementById('total_amount').innerText = totalAmount;
+	document.getElementById('amount_paid').innerText = paidAmount;
+	document.getElementById('balance_due').innerText = balanceDue;
+
+	//Footer Info
+	document.getElementById('footer_line_1').innerText = footerLine1;
+	document.getElementById('footer_line_2').innerText = footerLine2;
+	document.getElementById('footer_line_3').innerText = footerLine3;
+
+	//Load Products Name
+	var tbody = document.querySelector('.inventory tbody');
+	var rows = tbody.querySelectorAll('tr');
+	
+	for(var j=0;j<rows.length;j++) {
+		rows[j].parentNode.removeChild(rows[j]);
+	}
+
+	for(var i=0;i<productJsonArr.length;i++) {
+		document.querySelector('table.inventory tbody').appendChild(generateTableRow());
+	}
+
+	var tableRows = tbody.querySelectorAll('tr');
+	tableRows.forEach(function(row, rowIndex) {
+		// Get all cells in the row
+		var cells = row.querySelectorAll('td span:last-child');
+		if (rowIndex < productJsonArr.length) {
+			var rowData = productJsonArr[rowIndex];
+	
+			// Iterate over the cells and populate them with data from the JSON array
+			cells.forEach(function(cell, cellIndex) {
+				var columnName = 'column' + cellIndex;
+				cell.textContent = rowData[columnName];
+			});
+		}
+	  });
+
+
 }
 
 window.addEventListener && document.addEventListener('DOMContentLoaded', onContentLoad);
